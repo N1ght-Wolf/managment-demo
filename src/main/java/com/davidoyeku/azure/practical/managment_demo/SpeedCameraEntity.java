@@ -8,18 +8,26 @@ public class SpeedCameraEntity extends TableServiceEntity {
 	private String town;
 	private int maxSpeed;
 	public static final String SPEED_CAMERA_ENTITY_TABLE = "speedcamera"; 
-	public static final int TYPE=1;
+	public static  int TYPE=1;
 	
+	public static int getTYPE() {
+		return TYPE;
+	}
+
+	public static void setTYPE(int tYPE) {
+		TYPE = tYPE;
+	}
+
 	public SpeedCameraEntity() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+//	public int getId() {
+//		return id;
+//	}
+//	public void setId(int id) {
+//		this.id = id;
+//	}
 	public String getStreetName() {
 		return streetName;
 	}
@@ -32,23 +40,22 @@ public class SpeedCameraEntity extends TableServiceEntity {
 	public void setTown(String town) {
 		this.town = town;
 	}
-	public int getMaxSpeed() {
-		return maxSpeed;
-	}
-	public void setMaxSpeed(int maxSpeed) {
-		this.maxSpeed = maxSpeed;
-	}
+//	public int getMaxSpeed() {
+//		return maxSpeed;
+//	}
+//	public void setMaxSpeed(int maxSpeed) {
+//		this.maxSpeed = maxSpeed;
+//	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "id: "+this.id+" town:"+this.town+" streetName: "+this.streetName+" maxSpeed: "+this.maxSpeed;
 		}
-	public SpeedCameraEntity(int id, String streetName,String town, int maxSpeed) {
+	public SpeedCameraEntity(int id, int maxSpeed) {
 		// TODO Auto-generated constructor stub
-		this.id = id;
-		this.streetName = streetName;
-		this.town = town;
-		this.maxSpeed = maxSpeed;
+		this.partitionKey = id+"";
+		this.rowKey = maxSpeed+"";
+
 	}
 
 }

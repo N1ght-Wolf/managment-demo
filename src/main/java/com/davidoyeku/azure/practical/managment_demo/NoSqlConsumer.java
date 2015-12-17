@@ -72,12 +72,18 @@ public class NoSqlConsumer {
 		VehicleEntity vehicleEntity = null;
 		switch (subscriber) {
 		case Vehicle.VEHICLE_SUB:
-			vehicleEntity = new VehicleEntity((String) msg.getProperty("regPlate"),
-					(String) msg.getProperty("vehicleType"), (Integer) msg.getProperty("currentSpeed"),
-					(Integer) msg.getProperty("cameraId"));
+			
+			vehicleEntity = new VehicleEntity(
+					(String)msg.getProperty("regPlate"),
+					(String)msg.getProperty("vehicleType")
+					);
+			vehicleEntity.setCameraId((Integer)msg.getProperty("id"));
+			vehicleEntity.setCurrentSpeed((Integer)msg.getProperty("currentSpeed"));
+			vehicleEntity.setTYPE((Integer)msg.getProperty("type"));
 			insert = TableOperation.insertOrReplace(vehicleEntity);
+			
 			try {
-				speedCamTable.execute(insert);
+				vehicleTable.execute(insert);
 			} catch (StorageException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -85,12 +91,16 @@ public class NoSqlConsumer {
 			System.out.println("written to db ..."+VehicleEntity.VEHICLE_ENTITY_TABLE);
 			break;
 		case SpeedCamera.SPEED_CAM_SUB:
-			speedCameraEntity = new SpeedCameraEntity((Integer) msg.getProperty("id"),
-					(String) msg.getProperty("streetName"), (String) msg.getProperty("town"),
-					(Integer) msg.getProperty("maxSpeed"));
+			speedCameraEntity = new SpeedCameraEntity(
+					(Integer)msg.getProperty("id"),
+					(Integer)msg.getProperty("maxSpeed")
+					);
+			speedCameraEntity.setStreetName((String) msg.getProperty("streetName"));
+			speedCameraEntity.setTown((String)msg.getProperty("town"));
+			speedCameraEntity.setTYPE((Integer)msg.getProperty("type"));
 			insert = TableOperation.insertOrReplace(speedCameraEntity);
 			try {
-				vehicleTable.execute(insert);
+				speedCamTable.execute(insert);
 			} catch (StorageException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -8,14 +8,17 @@ public class VehicleEntity  extends TableServiceEntity {
 	private int currentSpeed;
 	private int cameraId;
 	public static final String VEHICLE_ENTITY_TABLE = "vehicle"; 
-	public static final int TYPE=0;
+	public static  int TYPE=0;
 	
-	public VehicleEntity(String regPlate, String vehicleType, int currentSpeed, int cameraId) {
-		// TODO Auto-generated constructor stub
-		this.regPlate = regPlate;
-		this.vehicleType = vehicleType;
-		this.currentSpeed = currentSpeed;
-		this.cameraId = cameraId;
+	public static int getTYPE() {
+		return TYPE;
+	}
+	public static void setTYPE(int tYPE) {
+		TYPE = tYPE;
+	}
+	public VehicleEntity(String regPlate, String vehicleType) {
+		this.partitionKey = regPlate;
+		this.rowKey = vehicleType;
 	}
 	public VehicleEntity() {
 		// TODO Auto-generated constructor stub
@@ -23,24 +26,24 @@ public class VehicleEntity  extends TableServiceEntity {
 	
 
 	public String getRegPlate() {
-		return regPlate;
-	}
-
-	public void setRegPlate(String regPlate) {
-		this.regPlate = regPlate;
-	}
-
-	public String getVehicleType() {
-		return vehicleType;
-	}
-
-	public void setVehicleType(String vehicleType) {
-		this.vehicleType = vehicleType;
-	}
-
-	public int getCurrentSpeed() {
-		return currentSpeed;
-	}
+//		return regPlate;
+//	}
+//
+//	public void setRegPlate(String regPlate) {
+//		this.regPlate = regPlate;
+//	}
+//
+//	public String getVehicleType() {
+//		return vehicleType;
+//	}
+//
+//	public void setVehicleType(String vehicleType) {
+//		this.vehicleType = vehicleType;
+//	}
+//
+//	public int getCurrentSpeed() {
+//		return currentSpeed;
+//	}
 
 	public void setCurrentSpeed(int currentSpeed) {
 		this.currentSpeed = currentSpeed;
