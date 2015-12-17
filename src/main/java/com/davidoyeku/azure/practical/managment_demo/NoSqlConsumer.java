@@ -79,7 +79,7 @@ public class NoSqlConsumer {
 					);
 			vehicleEntity.setCameraId((Integer)msg.getProperty("id"));
 			vehicleEntity.setCurrentSpeed((Integer)msg.getProperty("currentSpeed"));
-			vehicleEntity.setTYPE((Integer)msg.getProperty("type"));
+			//vehicleEntity.setTYPE((Integer)msg.getProperty("type"));
 			insert = TableOperation.insertOrReplace(vehicleEntity);
 			
 			try {
@@ -97,7 +97,7 @@ public class NoSqlConsumer {
 					);
 			speedCameraEntity.setStreetName((String) msg.getProperty("streetName"));
 			speedCameraEntity.setTown((String)msg.getProperty("town"));
-			speedCameraEntity.setTYPE((Integer)msg.getProperty("type"));
+			//speedCameraEntity.setTYPE((Integer)msg.getProperty("type"));
 			insert = TableOperation.insertOrReplace(speedCameraEntity);
 			try {
 				speedCamTable.execute(insert);
@@ -155,7 +155,6 @@ public class NoSqlConsumer {
 		} catch (Exception e) {
 			System.out.print("Generic exception encountered: ");
 			System.out.println(e.getMessage());
-			System.exit(-1);
 		}
 	}
 	

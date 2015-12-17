@@ -25,7 +25,7 @@ public class VehicleEntity  extends TableServiceEntity {
 	}
 	
 
-	public String getRegPlate() {
+//	public String getRegPlate() {
 //		return regPlate;
 //	}
 //

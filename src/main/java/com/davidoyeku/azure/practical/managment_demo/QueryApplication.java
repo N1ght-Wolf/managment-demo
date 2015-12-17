@@ -21,12 +21,12 @@ public class QueryApplication {
 	private CloudTable vehicleTable;
 	private Configuration config;
 	private ServiceBusContract service;
-	public static final String storageConnectionString = "DefaultEndpointsProtocol=http;"
+	public static final String storageConnectionString = 
+			"DefaultEndpointsProtocol=http;"
 			+ "AccountName=courseworkstorage;"
 			+ "AccountKey=1m2uphgsSiB+nDsPCzzJeva8IJbvu8H6k7tggqvetKTGT+Y4DEHWday5kZlAnV8u2/ca0hnLhbf1qo3qdcojiQ==";
 	
 	public QueryApplication() {
-		// TODO Auto-generated constructor stub
 		initiateConfigurations();
 	}
 
