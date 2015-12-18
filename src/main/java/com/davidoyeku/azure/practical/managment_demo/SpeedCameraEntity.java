@@ -40,6 +40,7 @@ public class SpeedCameraEntity extends TableServiceEntity {
 	public void setTown(String town) {
 		this.town = town;
 	}
+	
 //	public int getMaxSpeed() {
 //		return maxSpeed;
 //	}
@@ -49,7 +50,7 @@ public class SpeedCameraEntity extends TableServiceEntity {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "id: "+this.id+" town:"+this.town+" streetName: "+this.streetName+" maxSpeed: "+this.maxSpeed;
+		return  getRowKey()+" speed";
 		}
 	public SpeedCameraEntity(int id, int maxSpeed) {
 		// TODO Auto-generated constructor stub

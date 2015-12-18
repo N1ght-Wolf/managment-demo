@@ -11,6 +11,7 @@ public class VehicleEntity  extends TableServiceEntity {
 	public static final String VEHICLE_ENTITY_TABLE = "vehicle"; 
 	public static  int TYPE=0;
 	
+
 	public static int getTYPE() {
 		return TYPE;
 	}
@@ -42,9 +43,9 @@ public class VehicleEntity  extends TableServiceEntity {
 //		this.vehicleType = vehicleType;
 //	}
 //
-//	public int getCurrentSpeed() {
-//		return currentSpeed;
-//	}
+	public int getCurrentSpeed() {
+		return currentSpeed;
+	}
 
 	public void setCurrentSpeed(int currentSpeed) {
 		this.currentSpeed = currentSpeed;

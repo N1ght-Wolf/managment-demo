@@ -72,24 +72,26 @@ public class NoSqlConsumer {
 		VehicleEntity vehicleEntity = null;
 		switch (subscriber) {
 		case Vehicle.VEHICLE_SUB:
-			
+			System.out.println(1);
 			vehicleEntity = new VehicleEntity(
 					(String)msg.getProperty("regPlate"),
-					(String)msg.getProperty("vehicleType")
-					);
-			vehicleEntity.setCameraId((Integer)msg.getProperty("id"));
+					(String)msg.getProperty("vehicleType"));
+			System.out.println(2);
+			vehicleEntity.setCameraId((Integer)msg.getProperty("cameraId"));
 			vehicleEntity.setCurrentSpeed((Integer)msg.getProperty("currentSpeed"));
 			vehicleEntity.setCameraMaxSpeed((Integer)msg.getProperty("cameraMaxSpeed"));
-			//vehicleEntity.setTYPE((Integer)msg.getProperty("type"));
+			System.out.println(3);
 			insert = TableOperation.insertOrReplace(vehicleEntity);
-			
+			System.out.println(4);
 			try {
 				vehicleTable.execute(insert);
+				System.out.println(5);
+
+				System.out.println("written to db ..."+VehicleEntity.VEHICLE_ENTITY_TABLE);
 			} catch (StorageException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("written to db ..."+VehicleEntity.VEHICLE_ENTITY_TABLE);
 			break;
 		case SpeedCamera.SPEED_CAM_SUB:
 			speedCameraEntity = new SpeedCameraEntity(
@@ -105,10 +107,9 @@ public class NoSqlConsumer {
 			} catch (StorageException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.out.println("written to db ..."+SpeedCameraEntity.SPEED_CAMERA_ENTITY_TABLE);
 			}
-			System.out.println("written to db ..."+SpeedCameraEntity.SPEED_CAMERA_ENTITY_TABLE);
 			break;
-
 		default:
 			break;
 		}
@@ -116,6 +117,7 @@ public class NoSqlConsumer {
 
 	public void recieveIncomingMessageFrom(String subscriber) {
 		try {
+			System.out.println("subscriber "+ subscriber);
 			// createTable(subscriber);
 			ReceiveMessageOptions opts = ReceiveMessageOptions.DEFAULT;
 			opts.setReceiveMode(ReceiveMode.PEEK_LOCK);
@@ -123,10 +125,12 @@ public class NoSqlConsumer {
 				ReceiveSubscriptionMessageResult resultSubMsg = service.receiveSubscriptionMessage(topic, subscriber,
 						opts);
 				BrokeredMessage message = resultSubMsg.getValue();
+				System.out.println("Custom Property: " + message.getProperty("regPlate"));
+				System.out.println("Custom Property: " + message.getProperty("cameraId"));
 				if (message != null && message.getMessageId() != null) {
 					System.out.println("MessageID: " + message.getMessageId());
 					// Display the topic message.
-					addToTable(subscriber, message);
+					addToTable(subscriber, message);					
 					System.out.print("From topic: ");
 					byte[] b = new byte[200];
 					String s = null;
@@ -138,7 +142,7 @@ public class NoSqlConsumer {
 						numRead = message.getBody().read(b);
 					}
 					System.out.println();
-					System.out.println("Custom Property: " + message.getProperty("MessageNumber"));
+//					System.out.println("Custom Property: " + message.getProperty("MessageNumber"));
 					// Delete message.
 					System.out.println("Deleting this message.");
 					service.deleteMessage(message);
