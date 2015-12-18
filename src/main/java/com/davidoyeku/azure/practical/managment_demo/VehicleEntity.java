@@ -6,6 +6,7 @@ public class VehicleEntity  extends TableServiceEntity {
 	private String regPlate;
 	private String vehicleType;
 	private int currentSpeed;
+	private int cameraMaxSpeed;
 	private int cameraId;
 	public static final String VEHICLE_ENTITY_TABLE = "vehicle"; 
 	public static  int TYPE=0;
@@ -55,6 +56,12 @@ public class VehicleEntity  extends TableServiceEntity {
 
 	public void setCameraId(int cameraId) {
 		this.cameraId = cameraId;
+	}
+	public int getCameraMaxSpeed() {
+		return cameraMaxSpeed;
+	}
+	public void setCameraMaxSpeed(int cameraMaxSpeed) {
+		this.cameraMaxSpeed = cameraMaxSpeed;
 	}
 
 }

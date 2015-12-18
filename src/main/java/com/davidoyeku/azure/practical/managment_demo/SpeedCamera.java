@@ -73,6 +73,7 @@ public class SpeedCamera {
 		Vehicle vehicle;
 			vehicle = new Vehicle();
 			vehicle.setCameraId(this.id);
+			vehicle.setCameraMaxSpeed(this.maxSpeed);
 			sendVehiclePassing(vehicle);
 			System.out.println(vehicle);
 	}
@@ -86,6 +87,7 @@ public class SpeedCamera {
 		message.setProperty("vehicleType", vehicle.getVehicleType());
 		message.setProperty("currentSpeed", vehicle.getCurrentSpeed());
 		message.setProperty("cameraId", vehicle.getCameraId());
+		message.setProperty("cameraMaxSpeed", vehicle.getCameraMaxSpeed());
 		message.setProperty("type", vehicle.TYPE);
 		try {
 			if(internetConnection()){

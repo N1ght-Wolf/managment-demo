@@ -18,6 +18,7 @@ public class Vehicle {
 	private final String [] VEHICLE_TYPES= {"CAR","TRUCK","MOTORCYCLE"};
 	private Random rand;
 	private int cameraId;
+	private int cameraMaxSpeed;
 	public final static String VEHICLE_SUB = "vehicle_sub";
 	public static final int TYPE = 0;
 	public Vehicle() {
@@ -65,7 +66,16 @@ public class Vehicle {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Registration:"+regPlate+" "+"VehicleType:"+vehicleType+" "+"Speed:"+currentSpeed+" "+"CameraId"+cameraId;
+		return "Registration:"+regPlate+" "+"VehicleType:"+vehicleType+" "+
+				"Speed:"+currentSpeed+" "+"cameraMaxSpeed:"+cameraMaxSpeed +" CameraId"+cameraId;
+	}
+
+	public int getCameraMaxSpeed() {
+		return cameraMaxSpeed;
+	}
+
+	public void setCameraMaxSpeed(int cameraMaxSpeed) {
+		this.cameraMaxSpeed = cameraMaxSpeed;
 	}
 
 

@@ -79,6 +79,7 @@ public class NoSqlConsumer {
 					);
 			vehicleEntity.setCameraId((Integer)msg.getProperty("id"));
 			vehicleEntity.setCurrentSpeed((Integer)msg.getProperty("currentSpeed"));
+			vehicleEntity.setCameraMaxSpeed((Integer)msg.getProperty("cameraMaxSpeed"));
 			//vehicleEntity.setTYPE((Integer)msg.getProperty("type"));
 			insert = TableOperation.insertOrReplace(vehicleEntity);
 			
