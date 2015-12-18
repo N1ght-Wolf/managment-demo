@@ -17,8 +17,8 @@ import com.microsoft.windowsazure.services.servicebus.ServiceBusService;
 public class QueryApplication {
 	private CloudStorageAccount storageAccount;
 	private CloudTableClient tableClient;
-	private CloudTable speedCamTable;
-	private CloudTable vehicleTable;
+//	private CloudTable speedCamTable;
+//	private CloudTable vehicleTable;
 	private Configuration config;
 	private ServiceBusContract service;
 	final String PARTITION_KEY = "PartitionKey";
@@ -35,7 +35,7 @@ public class QueryApplication {
 				"RootManageSharedAccessKey", "/c6Fv+2oH0sAnN0kGyua2gLa6RqmZmcViV3xjWEtofE=", ".servicebus.windows.net");
 		service = ServiceBusService.create(config);
 		try {
-			CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+			storageAccount = CloudStorageAccount.parse(storageConnectionString);
 			tableClient = storageAccount.createCloudTableClient();
 
 		} catch (InvalidKeyException e) {
@@ -50,10 +50,7 @@ public class QueryApplication {
 	private void getHighPrioritySightings() {
 		Iterable<SpeedCameraEntity> allCameras = getAllSpeedCameras();
 		Iterable<PoliceMonitorEntity> allPoliceMonitor = getAllPoliceMonitorEntity();
-		// for (VehicleEntity entity : allVehicles) {
-		// System.out.println(entity.getPartitionKey() +
-		// " "+entity.toString());
-		// }
+
 		int cameraId;
 		for (PoliceMonitorEntity policeMonitorEntity : allPoliceMonitor) {
 			cameraId= policeMonitorEntity.getCameraId();
@@ -61,7 +58,7 @@ public class QueryApplication {
 			for (SpeedCameraEntity speedEntity : allCameras) {
 //				System.out.println( speedEntity.getPartitionKey());
 				if(cameraId == Integer.parseInt(speedEntity.getPartitionKey())){
-					System.out.println(policeMonitorEntity.getRowKey()+" spotted at "+speedEntity.getStreetName());
+					System.out.println(policeMonitorEntity.getRowKey()+" spotted at "+speedEntity.getStreetName()+" "+speedEntity.getTown());
 					break;
 				}
 			}

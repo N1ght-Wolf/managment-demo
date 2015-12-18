@@ -100,7 +100,7 @@ public class Simulation {
 			sim.simulate(2);
 			try {
 				System.out.println("Sleeping...");
-				Thread.sleep(10000);
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

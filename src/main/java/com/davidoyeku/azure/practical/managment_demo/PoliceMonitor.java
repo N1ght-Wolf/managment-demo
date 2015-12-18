@@ -5,6 +5,9 @@ import java.security.InvalidKeyException;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.queue.CloudQueue;
+import com.microsoft.azure.storage.queue.CloudQueueClient;
+import com.microsoft.azure.storage.queue.CloudQueueMessage;
 import com.microsoft.azure.storage.table.CloudTable;
 import com.microsoft.azure.storage.table.CloudTableClient;
 import com.microsoft.azure.storage.table.TableOperation;
@@ -63,6 +66,44 @@ public class PoliceMonitor {
 			e.printStackTrace();
 		}
 		this.tableClient = storageAccount.createCloudTableClient();
+	}
+	
+	public void forwardToQueue(BrokeredMessage msg){
+		try
+		{
+		    // Retrieve storage account from connection-string.
+		    CloudStorageAccount storageAccount = 
+		       CloudStorageAccount.parse(storageConnectionString);
+
+		   // Create the queue client.
+		   CloudQueueClient queueClient = storageAccount.createCloudQueueClient();
+
+		   // Retrieve a reference to a queue.
+		   CloudQueue queue = queueClient.getQueueReference("speedingcarqueue");
+
+		   // Create the queue if it doesn't already exist.
+		   queue.createIfNotExists();
+		   
+		   int cameraId = (int) msg.getProperty("cameraId");
+		   String vehicleType = (String) msg.getProperty("vehicleType");
+		   int currentSpeed = (int) msg.getProperty("currentSpeed");
+		   String regPlate = (String) msg.getProperty("regPlate");
+		   int cameraMaxSpeed = (int) msg.getProperty("cameraMaxSpeed");
+		   CloudQueueMessage message = new CloudQueueMessage(
+				   "cameraId: "+cameraId+
+				   "vehicleType: "+vehicleType+
+				   "currentSpeed: "+currentSpeed+
+				   "regPlate: "+regPlate+
+				   "cameraMaxSpeed: "+cameraMaxSpeed
+				   );
+
+		    queue.addMessage(message);
+		}
+		catch (Exception e)
+		{
+		    // Output the stack trace.
+		    e.printStackTrace();
+		}
 	}
 	
 	public void speedingVehicleSubscription(){
@@ -137,6 +178,7 @@ public class PoliceMonitor {
 						message.setProperty("priority","non-priority");
 					}
 					addToTable(message);
+					forwardToQueue(message);
 					System.out.println(s);
 					//System.out.println("Custom Property: " + message.getProperty("MessageNumber"));
 					// Delete message.
@@ -156,7 +198,7 @@ public class PoliceMonitor {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	private double calculatePercentageIncrease(int cameraMaxSpeed, int currentSpeed){
 		double increase = currentSpeed - cameraMaxSpeed;
 		increase  = increase /cameraMaxSpeed;
