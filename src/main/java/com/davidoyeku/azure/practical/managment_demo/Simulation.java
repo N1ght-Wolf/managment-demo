@@ -29,7 +29,7 @@ public class Simulation {
 	private Random rand;
 	
 	public Simulation(Path input) {
-		speedCams = new ArrayList<>();
+		speedCams = new ArrayList<SpeedCamera>();
 		rand = new Random();
 		this.topic="SpeedCamera";
 		initiateConfigurations();
@@ -95,12 +95,14 @@ public class Simulation {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Simulation sim = new Simulation(Paths.get("SpeedCamera.txt"));
+		int carsPerMin = 3;
+		System.out.println(carsPerMin+" vehicles per minute");
 		while(true){
 			//4 cars per minute
-			sim.simulate(2);
+			sim.simulate(3);
 			try {
-				System.out.println("Sleeping...");
-				Thread.sleep(2000);
+				System.out.println("-------------------------------------------------");
+				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -108,9 +110,9 @@ public class Simulation {
 		}
 	}
 
-	private void simulate(int perMinute) {
+	private void simulate(int amount) {
 		SpeedCamera speedCamera ;
-		for(int i=0; i<perMinute; i++){
+		for(int i=0; i<amount; i++){
 		speedCamera = speedCams.get(rand.nextInt(speedCams.size()));
 		speedCamera.recordVehiclePassing();
 		}

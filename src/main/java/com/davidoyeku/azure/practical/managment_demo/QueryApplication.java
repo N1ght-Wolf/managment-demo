@@ -118,7 +118,11 @@ public class QueryApplication {
 
 	private void showAllSpeedCameras() {
 		for (SpeedCameraEntity entity : getAllSpeedCameras()) {
-			System.out.println(entity.getPartitionKey() + " " + entity.toString());
+			System.out.println(entity.getPartitionKey() + "=> maxspeed" );
+			System.out.println(entity.getRowKey() + "=> identifier");
+			System.out.println(entity.getStreetName() + "=> streetName");
+			System.out.println(entity.getTown() + "=> town");
+			System.out.println("--------------------------------");
 		}
 	}
 

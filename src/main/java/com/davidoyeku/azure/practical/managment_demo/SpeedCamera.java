@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.servicebus.ServiceBusContract;
@@ -21,20 +22,32 @@ public class SpeedCamera {
 	private String streetName;
 	private String town;
 	private int maxSpeed;
+	public int getMaxSpeed() {
+		return maxSpeed;
+	}
+
+	public void setMaxSpeed(int maxSpeed) {
+		//on change of max speed, the camera is restarted
+		sendStartUpMessage();
+		this.maxSpeed = maxSpeed;
+	}
+
 	public static final int TYPE=1;
 	public static final String SPEED_CAM_SUB = "speed_camera_sub";
 	private ArrayList<BrokeredMessage> offlineQueue;
 	private ServiceBusContract service;
 	private String topic;
+	private Date d;
 
 	public SpeedCamera(String[] cameraProperties, ServiceBusContract service, String topic) {
-		offlineQueue = new ArrayList<>();
+		offlineQueue = new ArrayList<BrokeredMessage>();
 		this.id = Integer.parseInt(cameraProperties[0]);
 		this.streetName = cameraProperties[1];
 		this.town = cameraProperties[2];
 		this.maxSpeed = Integer.parseInt(cameraProperties[3]);
 		this.service = service;
 		this.topic = topic;
+		this.d = new Date();
 		sendStartUpMessage();
 	}
 
@@ -46,12 +59,14 @@ public class SpeedCamera {
 		message.setProperty("streetName", this.streetName);
 		message.setProperty("maxSpeed", this.maxSpeed);
 		message.setProperty("type", this.TYPE);
+		message.setProperty("date", this.d.getTime());
 		try {
 			if(internetConnection()){
 				//send offline messages
 				sendOfflineMessages();
 				//send speed camera message
 				service.sendTopicMessage(topic, message);
+				System.out.println("Camera sent start up message "+this.toString());
 //				System.out.println("sending ...");
 			}else{
 				//add to offline queue if no internet
@@ -93,8 +108,9 @@ public class SpeedCamera {
 			if(internetConnection()){
 				sendOfflineMessages();
 				service.sendTopicMessage(topic, message);	
-				System.out.println("sending ...");
+				System.out.println("cameraId "+this.id+" sending to vehicle subscription");
 			}else{
+				System.out.println("adding to offline queue");
 				offlineQueue.add(message);
 			}
 		} catch (ServiceException e) {

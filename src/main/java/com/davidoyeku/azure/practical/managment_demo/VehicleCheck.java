@@ -53,12 +53,10 @@ public class VehicleCheck {
 		    queue.downloadAttributes();
 
 		    // Retrieve the newly cached approximate message count.
-		    int cachedMessageCount = (int)queue.getApproximateMessageCount();
 		    // Retrieve 20 messages from the queue with a visibility timeout of 300 seconds.
-		    for (CloudQueueMessage message : queue.retrieveMessages(cachedMessageCount, 300, null, null)) {
+		    for (CloudQueueMessage message : queue.retrieveMessages(20, 300, null, null)) {
 		        // Do processing for all messages in less than 5 minutes, 
-		        // deleting each message after processing.
-//		        queue.deleteMessage(message);
+		        // deleting each message after processing.		        queue.deleteMessage(message);
 		    	System.out.println(message.getMessageContentAsString());
 		    }
 		}
